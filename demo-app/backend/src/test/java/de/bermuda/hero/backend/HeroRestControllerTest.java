@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @EnableAutoConfiguration
 @RunWith(SpringRunner.class)
 //@SpringBootTest(classes = {HeroRestController.class, HeroMapper.class, HeroMapperImpl.class})
-@SpringBootTest
+@SpringBootTest(value = {"spring.cloud.consul.enabled=false"})
 @AutoConfigureMockMvc
 @WithMockUser(roles = {"ADMIN"})
 public class HeroRestControllerTest {
