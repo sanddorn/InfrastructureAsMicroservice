@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>demo-application</artifactId>
+        <groupId>de.bermuda.infrasructureAsMicroservice.demo</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>docker</packaging>
+
+    <artifactId>backend-docker</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.bermuda.infrasructureAsMicroservice.demo</groupId>
+            <artifactId>backend</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <!-- The Docker Maven plugin is used to create docker image with the fat jar -->
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <logDate>default</logDate>
+                    <autoPull>true</autoPull>
+                    <images>
+                        <image>
+                            <alias>consul</alias>
+                            <name>consul:1.6.1</name>
+                            <run>
+                                <wait>
+                                    <log>
+                                        Consul agent running!
+                                    </log>
+                                    <time>20000</time>
+                                </wait>
+                                <log>
+                                    <prefix>Consul</prefix>
+                                    <color>yellow</color>
+                                </log>
+                            </run>
+                        </image>
+                        <!-- Image holding the artifact of this build -->
+                        <image>
+                            <!-- Alias name which can used for linking containers during runtime -->
+                            <alias>backend</alias>
+                            <name>demo-backend:${project.version}</name>
+
+                            <!-- ....................................... -->
+                            <!-- Build configuration for creating images -->
+                            <!-- ....................................... -->
+                            <build>
+                                <from>openjdk:11-slim</from>
+                                <!-- Assembly descriptor holds the reference to the created artifact-->
+                                <assembly>
+                                    <!-- Normally, one would only use 'assembly.xml' if we could put the assembly descriptor
+                                         into src/main/docker But this confuses the alexec plugin, so we put it into another
+                                         directory and use an absolute pathe -->
+                                    <inline>
+                                        <dependencySets>
+                                            <dependencySet>
+                                                <includes>
+                                                    <include>de.bermuda.infrasructureAsMicroservice.demo:backend</include>
+                                                </includes>
+                                                <outputDirectory>.</outputDirectory>
+                                                <outputFileNameMapping>backend.jar</outputFileNameMapping>
+                                            </dependencySet>
+                                        </dependencySets>
+                                    </inline>
+                                </assembly>
+                                <!-- Expose ports -->
+                                <ports>
+                                    <port>8081</port>
+                                </ports>
+                                <!-- Default command for the build image -->
+                                <entryPoint>java ${JAVA_OPTS} -jar /maven/backend.jar $ARGS $@</entryPoint>
+                            </build>
+
+                            <!-- ............................................................... -->
+                            <!-- Runtime configuration for starting/stopping/linking containers -->
+                            <!-- ............................................................... -->
+                            <run>
+                                <!-- Assign dynamically mapped ports to maven variables (which can be reused in integration tests) -->
+                                <ports>
+                                    <port>+docker.host.address:tomcat.port:8081</port>
+                                </ports>
+                                <wait>
+                                    <!-- ... but at max 30 seconds -->
+                                    <time>30000</time>
+                                    <url>http://${docker.host.address}:${tomcat.port}/actuator/health</url>
+                                    <!-- at least look at log if started -->
+                                </wait>
+                                <env>
+                                    <ARGS>--spring.cloud.consul.host=consul</ARGS>
+                                </env>
+                                <links>
+                                    <link>consul:consul</link>
+                                </links>
+                            </run>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
