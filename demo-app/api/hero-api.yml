@@ -1,0 +1,91 @@
+openapi: 3.0.0
+info:
+  version: '1.0.0-SNAPSHOT'
+  title: 'Hero API for Consul Demo'
+  description: 'Hero API for Consul Demo'
+tags:
+  - name: hero
+  - name: repository
+paths:
+  '/hero/heros':
+    get:
+      summary: Collect all heros from all repositories
+      operationId: collectAllHeros
+      tags:
+        - hero
+      responses:
+        200:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/hero'
+  '/hero/repositories':
+    get:
+      summary: Get all hero repositories
+      operationId: getHeroRepositoryNames
+      tags:
+        - repository
+      responses:
+        200:
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  '/hero/hero/{repository}':
+    post:
+      summary: Add hero to the repository
+      operationId: addHeroToRepository
+      tags:
+        - hero
+      parameters:
+        - name: repository
+          in: path
+          description: Repository to use
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/hero"
+      responses:
+        201:
+          description: Successfull created
+        404:
+          description: Repository not found
+        409:
+          description: The hero already exists and the repository cannot handle duplicates.
+
+components:
+  schemas:
+    hero:
+      type: object
+      required:
+        - name
+        - city
+        - universum
+      properties:
+        name:
+          type: string
+          example: "Batman"
+        city:
+          type: string
+          example: "Gotham City"
+        universum:
+          type: string
+          enum:
+            - "Marvel"
+            - "DC Comics"
+
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Bermuda/hero-api/1.0.0-SNAPSHOT
+  - description: Integration System
+    url: https://heros.bermuda.de/
