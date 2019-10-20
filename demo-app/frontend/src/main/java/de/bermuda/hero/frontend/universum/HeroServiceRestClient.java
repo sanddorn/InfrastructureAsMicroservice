@@ -1,16 +1,21 @@
 package de.bermuda.hero.frontend.universum;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import de.bermuda.hero.client.ApiClient;
 import de.bermuda.hero.client.api.HeroApi;
 import de.bermuda.hero.client.api.RepositoryApi;
 import de.bermuda.hero.client.model.Hero;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
-
-import java.util.*;
 
 @Component
 public class HeroServiceRestClient implements HeroService {
@@ -19,14 +24,18 @@ public class HeroServiceRestClient implements HeroService {
     private final Logger LOGGER = LoggerFactory.getLogger(HeroServiceRestClient.class);
     private final RepositoryApi repositoryApi;
 
-    public HeroServiceRestClient(@Value("${backend.url}") String backendUrl,
-                                 @Value("${backend.username}") String username,
-                                 @Value("${backend.password}") String password) {
+
+    public HeroServiceRestClient(ConfigurableEnvironment configurableEnvironment) {
+        String backendUrl =  configurableEnvironment.getRequiredProperty("backend.url");
+        String username = configurableEnvironment.getProperty("backend.username");
+        String password = configurableEnvironment.getProperty("backend.password");
         heroApi = new HeroApi();
         final ApiClient apiClient = heroApi.getApiClient();
         apiClient.setBasePath(backendUrl);
-        apiClient.setPassword(password);
-        apiClient.setUsername(username);
+        if (username != null ) {
+            apiClient.setPassword(password);
+            apiClient.setUsername(username);
+        }
         repositoryApi = new RepositoryApi(apiClient);
     }
 

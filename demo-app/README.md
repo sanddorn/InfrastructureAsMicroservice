@@ -1,3 +1,12 @@
+# Consul Service
+```
+docker run -d --name=dev-consul -p 8500:8500 consul
+
+docker exec dev-consul consul kv put config/frontend/backend.url http://localhost:8081/api
+docker exec dev-consul consul kv put config/frontend/backend.username admin
+docker exec dev-consul consul kv put config/frontend/backend.password admin
+```
+
 # Demo
 Spring Boot Demo Application
 
