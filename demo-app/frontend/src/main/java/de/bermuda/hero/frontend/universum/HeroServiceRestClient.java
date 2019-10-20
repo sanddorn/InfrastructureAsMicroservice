@@ -1,9 +1,11 @@
 package de.bermuda.hero.frontend.universum;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import de.bermuda.hero.client.ApiClient;
@@ -13,6 +15,9 @@ import de.bermuda.hero.client.model.Hero;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
@@ -23,15 +28,23 @@ public class HeroServiceRestClient implements HeroService {
     private final HeroApi heroApi;
     private final Logger LOGGER = LoggerFactory.getLogger(HeroServiceRestClient.class);
     private final RepositoryApi repositoryApi;
+    private final DiscoveryClient discoveryClient;
+    private final String backendUrl;
+    private String backendInstanceName;
 
-
-    public HeroServiceRestClient(ConfigurableEnvironment configurableEnvironment) {
-        String backendUrl =  configurableEnvironment.getRequiredProperty("backend.url");
+    public HeroServiceRestClient(DiscoveryClient discoveryClient,
+                                 ConfigurableEnvironment configurableEnvironment,
+                                 @Value("${backend.instanceName}") String backendInstanceName) {
+        this.backendInstanceName = backendInstanceName;
+        this.discoveryClient = discoveryClient;
+        backendUrl =  configurableEnvironment.getProperty("backend.url");
         String username = configurableEnvironment.getProperty("backend.username");
         String password = configurableEnvironment.getProperty("backend.password");
         heroApi = new HeroApi();
         final ApiClient apiClient = heroApi.getApiClient();
-        apiClient.setBasePath(backendUrl);
+        apiClient.setBasePath(retrieveURL());
+
+
         if (username != null ) {
             apiClient.setPassword(password);
             apiClient.setUsername(username);
@@ -68,5 +81,20 @@ public class HeroServiceRestClient implements HeroService {
             LOGGER.debug("Could not get repositories", e);
             return Collections.emptySet();
         }
+    }
+
+    private String retrieveURL() {
+        // Maybe the serviceId should be configurable.
+        Optional<ServiceInstance> serviceOptional = discoveryClient.getInstances(backendInstanceName).stream().findAny();
+        if (serviceOptional.isPresent()) {
+            ServiceInstance serviceInstance = serviceOptional.get();
+            LOGGER.info(serviceInstance.getUri().toString());
+            URI uri = serviceInstance.getUri();
+            String baseUrl = "/api";
+            String fullURL = uri.toString() + baseUrl;
+            LOGGER.info("ServicePath: {}", fullURL);
+            return fullURL;
+        }
+        return backendUrl;
     }
 }
