@@ -1,10 +1,12 @@
 package de.bermuda.hero.frontend.universum;
 
+import de.bermuda.hero.client.ApiClient;
 import de.bermuda.hero.client.api.HeroApi;
 import de.bermuda.hero.client.api.RepositoryApi;
 import de.bermuda.hero.client.model.Hero;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
@@ -17,12 +19,15 @@ public class HeroServiceRestClient implements HeroService {
     private final Logger LOGGER = LoggerFactory.getLogger(HeroServiceRestClient.class);
     private final RepositoryApi repositoryApi;
 
-    public HeroServiceRestClient() {
-
-
+    public HeroServiceRestClient(@Value("${backend.url}") String backendUrl,
+                                 @Value("${backend.username}") String username,
+                                 @Value("${backend.password}") String password) {
         heroApi = new HeroApi();
-        heroApi.getApiClient().setBasePath("http://localhost:8081/api/");
-        repositoryApi = new RepositoryApi(heroApi.getApiClient());
+        final ApiClient apiClient = heroApi.getApiClient();
+        apiClient.setBasePath(backendUrl);
+        apiClient.setPassword(password);
+        apiClient.setUsername(username);
+        repositoryApi = new RepositoryApi(apiClient);
     }
 
     @Override
