@@ -17,4 +17,5 @@ mvn clean install
 ```
 
 Application URL: `http://localhost:8080/hero`
+
 Backend URL (See api/hero-api.yml for details): `http://localhost:8081/api/`
