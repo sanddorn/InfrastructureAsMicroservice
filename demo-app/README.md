@@ -1,21 +1,45 @@
-# Consul Service
-```
-docker run -d --name=dev-consul -p 8500:8500 consul
-
-docker exec dev-consul consul kv put config/frontend/backend.url http://localhost:8081/api
-docker exec dev-consul consul kv put config/frontend/backend.username admin
-docker exec dev-consul consul kv put config/frontend/backend.password admin
-```
-
-# Demo
-Spring Boot Demo Application
+# Virtual Machine
 
 ```
-mvn clean install
-(cd backend && mvn spring-boot:run)
-(cd frontend && mvn spring-boot:run)
+cd Environment
+vagrant up
 ```
 
-Application URL: `http://localhost:8080/hero`
+# Nomad Configuration
+```
+vagrant upload backend-docker/src/deployment/backend.nomad
+vagrant upload frontend/src/main/deployment/frontend.nomad
+```
 
-Backend URL (See api/hero-api.yml for details): `http://localhost:8081/api/`
+# Backend Deployment
+```
+vagrant ssh
+nomad apply backend.nomad
+nomad status backend
+``` 
+
+should:
+
+```
+
+```
+
+# Frontend Deployment
+```
+vagrant ssh
+nomad apply frontend.nomad
+nomad status frontend
+``` 
+
+should:
+
+# Start Traefik
+```
+vagrant ssh
+./traefik -c traefik.toml
+```
+
+View traefik GUI on `http://localhost:4888`
+
+View Hero-Demo on `http://localhost:8080`
+
