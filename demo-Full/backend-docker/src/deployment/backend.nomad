@@ -35,16 +35,12 @@ job "backend" {
 
       # Configuration is specific to each driver.
       config {
-        image = "sanddorn/infrastructure-as-microservice-demo:1.0.0-SNAPSHOT"
+        image = "sanddorn/infrastructure-as-microservice-demo"
         # if you have a "normal" german connection: pre fetch the image...
         force_pull = false
         args = ["--", "--spring.cloud.consul.host=172.17.0.1"]
         port_map {
           http =  8081
-        }
-        auth = {
-          username = "DockerPull"
-          password = "rekcoD"
         }
       }
 

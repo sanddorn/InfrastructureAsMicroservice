@@ -35,7 +35,7 @@ job "frontend" {
 
       # Configuration is specific to each driver.
       config {
-        jar_path    = "local/frontend-1.3.0-20191012.154501-1.jar"
+        jar_path    = "local/frontend-1.0.0-SNAPSHOT.jar"
         args        = ["--server.port=${NOMAD_PORT_http}", "--server.address=${NOMAD_IP_http}"]
       }
 
