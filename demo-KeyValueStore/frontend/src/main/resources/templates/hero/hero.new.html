@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Hero Form</title>
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<main class="container">
+    <h1>New Hero</h1>
+
+    <form th:action="@{/hero/new}" method="post" th:object="${newHero}">
+        <div class="form-group row">
+            <label for="nameInput" class="col-sm-1 col-form-label">Name</label>
+            <input id="nameInput" type="text" class="mb-1" th:field="*{hero.name}">
+        </div>
+        <div class="form-group row">
+            <label for="cityInput" class="col-sm-1 col-form-label">City</label>
+            <input id="cityInput" type="text" class="mb-1"  th:field="*{hero.city}">
+        </div>
+        <div class="form-group row">
+            <label for="universumInput" class="col-sm-1 col-form-label">Universum</label>
+            <select id="universumInput" class="mb-1" th:field="*{hero.universum}">
+                <option th:each="universum : ${T(de.bermuda.hero.client.model.Hero$UniversumEnum).values()}"
+                        th:value="${universum.name()}"
+                        th:text="${universum.value}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group row">
+            <label for="repositoryChoose" class="col-sm-1 col-form-label">Repository</label>
+            <select id="repositoryChoose" class="mb-1" th:field="*{repository}">
+                <option th:each="repo : ${repos}"
+                        th:value="${repo}"
+                        th:text="${repo}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <p><input role="button" class="btn btn-outline-secondary" type="submit" value="Add hero"></p>
+        </div>
+    </form>
+</main>
+</body>
+</html>
