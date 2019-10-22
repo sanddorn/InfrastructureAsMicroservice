@@ -138,12 +138,15 @@ Nomad preparation:
 ```
 cd Environment
 vagrant up
-vagrant upload backend-docker/src/deployment/backend.nomad
-vagrant upload frontend/src/main/deployment/frontend.nomad
+vagrant upload ../backend-docker/src/deployment/backend.nomad
+vagrant upload ../frontend/src/main/deployment/frontend.nomad
 vagrant ssh
 
 sudo nomad agent -dev
 
+# open a new shell
+#cd Environment
+#vagrant ssh
 
 nomad run backend.nomad
 nomad status backend
@@ -160,7 +163,6 @@ ID        Node ID   Task Group  Version  Desired  Status   Created  Modified
 697c04f1  54866ffd  docker      0        run      running  48s ago  15s ago
 
 
-
 nomad run frontend.nomad
 nomad status frontend
 [...]
@@ -173,6 +175,7 @@ ID        Node ID   Task Group  Version  Desired  Status   Created    Modified
 39d58f03  54866ffd  webs        0        run      running  4m22s ago  2m51s ago
 
 ```
+You can see the services on the Consul UI: `http://localhost:8500/ui/dc1/services`
 
 ## Step 5 - Reverse Proxy
 In `demo-Full`, you can find how to set up your reverse proxy.
@@ -180,6 +183,9 @@ In `demo-Full`, you can find how to set up your reverse proxy.
 Use the preparation as in Step 4, as you need a running Consul stack
 
 ```
+# inside vagrant
+# cd Environment
+# vagrant up
 ./traefik -c traefik.toml
 ```
 
