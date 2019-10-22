@@ -40,9 +40,9 @@ job "frontend" {
       }
 
       artifact {
-        source      = "https://nilsb:tz45vL@nexus.bermuda.de/repository/maven-public/com/github/sparsick/frontend/1.3.0-SNAPSHOT/frontend-1.3.0-20191012.154501-1.jar"
+        source      = "https://github.com/sanddorn/InfrastructureAsMicroservice/releases/download/1.0.0-SNAPSHOT/frontend-1.0.0-SNAPSHOT.jar"
         options {
-          checksum = "md5:b239ba8eaa890f45689a77e2145dabdf"
+          checksum = "md5:55fc9192364a60ccdf8f4e362cdcf354"
         }
       }
 

@@ -35,7 +35,7 @@ job "backend" {
 
       # Configuration is specific to each driver.
       config {
-        image = "demo-backend:1.0.0"
+        image = "sanddorn/infrastructure-as-microservice-demo:1.0.0-SNAPSHOT"
         # if you have a "normal" german connection: pre fetch the image...
         force_pull = false
         args = ["--", "--spring.cloud.consul.host=172.17.0.1"]
