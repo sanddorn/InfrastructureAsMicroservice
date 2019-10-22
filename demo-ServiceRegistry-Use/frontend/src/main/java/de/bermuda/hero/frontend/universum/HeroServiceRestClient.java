@@ -88,11 +88,11 @@ public class HeroServiceRestClient implements HeroService {
         Optional<ServiceInstance> serviceOptional = discoveryClient.getInstances(backendInstanceName).stream().findAny();
         if (serviceOptional.isPresent()) {
             ServiceInstance serviceInstance = serviceOptional.get();
-            LOGGER.info(serviceInstance.getUri().toString());
+            LOGGER.info("Found Service URL: '{}''", serviceInstance.getUri().toString());
             URI uri = serviceInstance.getUri();
             String baseUrl = "/api";
             String fullURL = uri.toString() + baseUrl;
-            LOGGER.info("ServicePath: {}", fullURL);
+            LOGGER.info("ServicePath: '{}'", fullURL);
             return fullURL;
         }
         return backendUrl;

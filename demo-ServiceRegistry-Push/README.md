@@ -2,7 +2,6 @@
 ```
 docker run -d --name=dev-consul -p 8500:8500 consul
 
-docker exec dev-consul consul kv put config/frontend/backend.url http://localhost:8081/api
 docker exec dev-consul consul kv put config/frontend/backend.username admin
 docker exec dev-consul consul kv put config/frontend/backend.password admin
 ```
@@ -18,3 +17,4 @@ mvn clean install
 
 Application URL: `http://localhost:8080/hero`
 Backend URL (See api/hero-api.yml for details): `http://localhost:8081/api/`
+Registration Information in Consul:` http://localhost:8500/ui/dc1/services/backend`
