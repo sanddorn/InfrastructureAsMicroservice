@@ -49,13 +49,19 @@
                         <image>
                             <!-- Alias name which can used for linking containers during runtime -->
                             <alias>backend</alias>
-                            <name>demo-backend:${project.version}</name>
-
+                            <name>sanddorn/infrastructure-as-microservice-demo:${project.version}</name>
                             <!-- ....................................... -->
                             <!-- Build configuration for creating images -->
                             <!-- ....................................... -->
                             <build>
                                 <from>openjdk:11-slim</from>
+                                <tags>
+                                    <tag>latest</tag>
+                                </tags>
+                                <tags>
+                                    <tag>latest</tag>
+                                </tags>
+
                                 <!-- Assembly descriptor holds the reference to the created artifact-->
                                 <assembly>
                                     <!-- Normally, one would only use 'assembly.xml' if we could put the assembly descriptor
@@ -65,7 +71,8 @@
                                         <dependencySets>
                                             <dependencySet>
                                                 <includes>
-                                                    <include>de.bermuda.infrasructureAsMicroservice.demo:backend</include>
+                                                    <include>de.bermuda.infrasructureAsMicroservice.demo:backend
+                                                    </include>
                                                 </includes>
                                                 <outputDirectory>.</outputDirectory>
                                                 <outputFileNameMapping>backend.jar</outputFileNameMapping>
