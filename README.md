@@ -1,6 +1,8 @@
 # Infrastructure As Microservice Talk
 You can find here the slides and the sample code of our talk "Infrastructure as Microservice - Alternativen zum Monolithen Kubernetes" that we presented on Softwerkskammer at 23rd October 2019.
 
+Slides are located in folder `slides`.
+
 The code samples are tested with
 - Maven 3.6.2
 - Java 11
