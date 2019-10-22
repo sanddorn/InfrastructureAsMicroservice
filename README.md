@@ -140,5 +140,47 @@ cd Environment
 vagrant up
 vagrant upload backend-docker/src/deployment/backend.nomad
 vagrant upload frontend/src/main/deployment/frontend.nomad
+vagrant ssh
+
+sudo nomad agent -dev
+
+
+nomad run backend.nomad
+nomad status backend
+
+[...]
+Deployed
+Task Group  Desired  Placed  Healthy  Unhealthy  Progress Deadline
+docker      3        3       0        0          2019-10-22T21:07:08Z
+
+Allocations
+ID        Node ID   Task Group  Version  Desired  Status   Created  Modified
+488a3e66  54866ffd  docker      0        run      running  48s ago  15s ago
+61779aff  54866ffd  docker      0        run      running  48s ago  16s ago
+697c04f1  54866ffd  docker      0        run      running  48s ago  15s ago
+
+
+
+nomad run frontend.nomad
+nomad status frontend
+[...]
+Deployed
+Task Group  Desired  Placed  Healthy  Unhealthy  Progress Deadline
+webs        1        1       1        0          2019-10-22T21:07:22Z
+
+Allocations
+ID        Node ID   Task Group  Version  Desired  Status   Created    Modified
+39d58f03  54866ffd  webs        0        run      running  4m22s ago  2m51s ago
 
 ```
+
+## Step 5 - Reverse Proxy
+In `demo-Full`, you can find how to set up your reverse proxy.
+
+Use the preparation as in Step 4, as you need a running Consul stack
+
+```
+./traefik -c traefik.toml
+```
+
+You can see the dynamic configuration in traefik when you navigate your browser to `http://localhost:4888`
