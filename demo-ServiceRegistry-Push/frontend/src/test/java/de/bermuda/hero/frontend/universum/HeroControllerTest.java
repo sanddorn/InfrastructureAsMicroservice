@@ -14,11 +14,10 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(value = {"spring.cloud.consul.enabled=false"})
 public class HeroControllerTest {
 
     private static final String REPOSITORY = "repository";
-
 
     @Mock
     HeroService heroService;
