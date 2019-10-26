@@ -40,9 +40,9 @@ job "frontend" {
       }
 
       artifact {
-        source      = "https://nexus.bermuda.de:8443/frontend-1.0.0-SNAPSHOT.jar"
+        source      = "https://github.com/sanddorn/InfrastructureAsMicroservice/releases/download/1.0.0-SNAPSHOT/frontend-1.0.0-SNAPSHOT.jar"
         options {
-          checksum = "md5:8ebc03f2e8bd6662a7f45fbcdc69e802"
+          checksum = "md5:892e87bd35f7ca7c989b9ad38df85632"
         }
       }
 
