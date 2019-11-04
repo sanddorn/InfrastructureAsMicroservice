@@ -1,5 +1,5 @@
 # Infrastructure As Microservice Talk
-You can find here the slides and the sample code of our talk "Infrastructure as Microservice - Alternativen zum Monolithen Kubernetes" that we presented on Softwerkskammer at 23rd October 2019.
+You can find here the slides and the sample code of our talk "Infrastructure as Microservice - Alternativen zum Monolithen Kubernetes" that we presented on XP Days Germany in Filderstadt/Stuttgart at 7th November 2019.
 
 Slides are located in folder `slides`.
 
@@ -9,7 +9,7 @@ The code samples are tested with
 - Docker 19.03.3-rc1
 - Consul 1.6.1
 - Vagrant 2.2.5
-- Nomad 0.9.6
+- Nomad 0.10
 - Traefic 1.7.30
 
 ## Step 0 - Classical Client Server Architecture
