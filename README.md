@@ -1,5 +1,5 @@
 # Infrastructure As Microservice Talk
-You can find here the slides and the sample code of our talk "Infrastructure as Microservice - Alternativen zum Monolithen Kubernetes" that we presented on XP Days Germany in Filderstadt/Stuttgart at 7th November 2019.
+You can find here the slides and the sample code of our talk "Infrastructure as Microservice - Alternativen zum Monolithen Kubernetes" that we presented on Continuous Lifecyle in Mannheim at 14th November 2019.
 
 Slides are located in folder `slides`.
 
