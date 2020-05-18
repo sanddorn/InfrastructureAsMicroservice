@@ -1,7 +1,8 @@
 # Consul Service
 ```
-docker run -d --name=dev-consul -p 8500:8500 consul
+docker run -d --name=dev-consul -p 8500:8500 consul:1.7.3
 
+docker exec dev-consul consul kv put config/frontend/backend.url http://localhost:8081/api
 docker exec dev-consul consul kv put config/frontend/backend.username admin
 docker exec dev-consul consul kv put config/frontend/backend.password admin
 ```

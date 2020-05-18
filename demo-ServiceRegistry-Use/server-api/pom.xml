@@ -35,12 +35,22 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
             <plugin>
-                <groupId>io.swagger.codegen.v3</groupId>
-                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>generate-api</id>
@@ -52,7 +62,7 @@
                 </executions>
                 <configuration>
                     <inputSpec>${project.parent.basedir}/api/hero-api.yml</inputSpec>
-                    <language>spring</language>
+                    <generatorName>spring</generatorName>
                     <library>spring-boot</library>
                     <apiPackage>de.bermuda.hero.api</apiPackage>
                     <modelPackage>de.bermuda.hero.model</modelPackage>

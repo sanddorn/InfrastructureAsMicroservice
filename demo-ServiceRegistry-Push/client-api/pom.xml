@@ -13,7 +13,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.swagger.core.v3</groupId>
+            <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
         </dependency>
         <!-- HTTP client: Spring RestTemplate -->
@@ -52,8 +52,8 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>io.swagger.codegen.v3</groupId>
-                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>generate-api</id>

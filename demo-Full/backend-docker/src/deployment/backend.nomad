@@ -24,7 +24,7 @@ job "backend" {
   # placed on the same host.
   group "docker" {
     # Specify the number of these tasks we want.
-    count = 3
+    count = 2
 
     # Create an individual task (unit of work). This particular
     # task utilizes a Docker container to front a web application.

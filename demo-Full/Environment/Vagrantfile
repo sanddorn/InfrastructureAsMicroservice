@@ -31,7 +31,7 @@ sudo install nomad /usr/bin/nomad
 sudo mkdir -p /etc/nomad.d
 sudo chmod a+w /etc/nomad.d
 echo "Installing Consul..."
-CONSUL_VERSION=1.6.1
+CONSUL_VERSION=1.7.3
 rm consul*
 curl -sSL https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip > consul.zip
 unzip /tmp/consul.zip
@@ -52,6 +52,23 @@ EOF
 ) | sudo tee /etc/systemd/system/consul.service
 sudo systemctl enable consul.service
 sudo systemctl start consul
+
+(
+cat <<-EOF
+  [Unit]
+  Description=nomad development agent
+  Requires=network-online.target
+  After=network-online.target
+  [Service]
+  Restart=on-failure
+  ExecStart=/usr/bin/nomad agent -dev
+  ExecReload=/bin/kill -HUP $MAINPID
+  [Install]
+  WantedBy=multi-user.target
+EOF
+) | sudo tee /etc/systemd/system/nomad.service
+sudo systemctl enable nomad.service
+sudo systemctl start nomad
 
 curl -sSL https://github.com/containous/traefik/releases/download/v1.7.18/traefik_linux-amd64 > /home/vagrant/traefik
 chmod 755 /home/vagrant/traefik

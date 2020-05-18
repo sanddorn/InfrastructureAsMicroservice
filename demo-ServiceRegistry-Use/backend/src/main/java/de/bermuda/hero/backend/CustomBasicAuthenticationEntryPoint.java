@@ -19,7 +19,7 @@ public class CustomBasicAuthenticationEntryPoint extends BasicAuthenticationEntr
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet()  {
         setRealmName(realm);
         super.afterPropertiesSet();
     }
@@ -27,7 +27,7 @@ public class CustomBasicAuthenticationEntryPoint extends BasicAuthenticationEntr
     @Override
     public void commence(final HttpServletRequest request,
                          final HttpServletResponse response,
-                         final AuthenticationException authException) throws IOException, ServletException {
+                         final AuthenticationException authException) throws IOException {
         //Authentication failed, send error response.
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.addHeader("WWW-Authenticate", "Basic realm=" + getRealmName() + "");
