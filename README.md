@@ -1,13 +1,13 @@
 # Infrastructure As Microservice Talk
-You can find here the slides and the sample code of our talk "Infrastructure as Microservice - Alternativen zum Monolithen Kubernetes" that we presented on Continuous Lifecyle in Mannheim at 14th November 2019.
+You can find here the slides and the sample code of our talk "Infrastructure as Microservice - Alternativen zum Monolithen Kubernetes" that we presented on JAX Online at 26th May 2020.
 
 Slides are located in folder `slides`.
 
 The code samples are tested with
-- Maven 3.6.2
+- Maven 3.6.3
 - Java 11
 - Docker 19.03.3-rc1
-- Consul 1.6.1
+- Consul 1.7.2
 - Vagrant 2.2.5
 - Nomad 0.10
 - Traefic 1.7.30
