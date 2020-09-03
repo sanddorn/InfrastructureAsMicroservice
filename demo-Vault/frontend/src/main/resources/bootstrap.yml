@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: frontend
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      scheme: http
+    vault:
+      token: ${VAULT_TOKEN}
+      host: localhost
+      port: 8200
+      scheme: http
+g
