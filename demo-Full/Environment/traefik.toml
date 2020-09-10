@@ -1,0 +1,175 @@
+################################################################
+# Global configuration
+################################################################
+
+# Enable debug mode
+#
+# Optional
+# Default: false
+#
+debug = false
+
+# Log level
+#
+# Optional
+# Default: "ERROR"
+#
+logLevel = "DEBUG"
+
+# Send anonymous usage data
+#
+# Optional
+# Default: false
+#
+sendAnonymousUsage = true
+
+# Entrypoints to be used by frontends that do not specify any entrypoint.
+# Each frontend can specify its own entrypoints.
+#
+# Optional
+# Default: ["http"]
+#
+defaultEntryPoints = ["http"]
+
+# Tells traefik whether it should keep the trailing slashes in the paths (e.g. /paths/) or redirect to the no trailing slash paths instead (/paths).
+#
+# Optional
+# Default: false
+#
+keepTrailingSlash = true
+################################################################
+# Entrypoints configuration
+################################################################
+
+# Entrypoints definition
+#
+# Optional
+# Default:
+[entryPoints]
+    [entryPoints.http]
+        address = ":8080"
+     [entryPoints.traefik]
+        address = ":4888"
+
+################################################################
+# API and dashboard configuration
+################################################################
+
+# Enable API and dashboard
+[api]
+
+  # Name of the related entry point
+  #
+  # Optional
+  # Default: "traefik"
+  #
+  entryPoint = "traefik"
+
+  # Enabled Dashboard
+  #
+  # Optional
+  # Default: true
+  #
+  dashboard = true
+
+################################################################
+# Ping configuration
+################################################################
+
+# Enable ping
+[ping]
+
+  # Name of the related entry point
+  #
+  # Optional
+  # Default: "traefik"
+  #
+  # entryPoint = "traefik"
+
+################################################################
+# Consul Catalog Provider
+################################################################
+
+# Enable Consul Catalog Provider.
+[consulCatalog]
+
+# Consul server endpoint.
+#
+# Required
+# Default: "127.0.0.1:8500"
+#
+endpoint = "127.0.0.1:8500"
+
+# Expose Consul catalog services by default in Traefik.
+#
+# Optional
+# Default: true
+#
+exposedByDefault = true
+
+# Allow Consul server to serve the catalog reads regardless of whether it is the leader.
+#
+# Optional
+# Default: false
+#
+stale = false
+
+# Default base domain used for the frontend rules.
+#
+# Optional
+#
+domain = "consul.localhost"
+
+# Keep a Consul node only if all checks status are passing
+# If true, only the Consul nodes with checks status 'passing' will be kept.
+# if false, only the Consul nodes with checks status 'passing' or 'warning' will be kept.
+#
+# Optional
+# Default: true
+#
+strictChecks = true
+
+# Prefix for Consul catalog tags.
+#
+# Optional
+# Default: "traefik"
+#
+prefix = "traefik"
+
+# Default frontEnd Rule for Consul services.
+#
+# The format is a Go Template with:
+# - ".ServiceName", ".Domain" and ".Attributes" available
+# - "getTag(name, tags, defaultValue)", "hasTag(name, tags)" and "getAttribute(name, tags, defaultValue)" functions are available
+# - "getAttribute(...)" function uses prefixed tag names based on "prefix" value
+#
+# Optional
+# Default: "Host:{{.ServiceName}}.{{.Domain}}"
+#
+#frontEndRule = "Host:{{.ServiceName}}.{{.Domain}}"
+
+# Enable Consul catalog TLS connection.
+#
+# Optional
+#
+#    [consulCatalog.tls]
+#    ca = "/etc/ssl/ca.crt"
+#    cert = "/etc/ssl/consul.crt"
+#    key = "/etc/ssl/consul.key"
+#    insecureSkipVerify = true
+
+# Override default configuration template.
+# For advanced users :)
+#
+# Optional
+#
+# filename = "consulcatalog.tmpl"
+
+# Override template version
+# For advanced users :)
+#
+# Optional
+# - "1": previous template version (must be used only with older custom templates, see "filename")
+# - "2": current template version (must be used to force template version when "filename" is used)
+#
+# templateVersion = 2
